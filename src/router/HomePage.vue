@@ -4,7 +4,7 @@
     @mouseup="dragEnd" 
     @mouseleave="dragEnd"
     @mousemove.self="mouseMove">
-        <Widget v-for="(item, index) in widgets" :key="index" :prop="item" :isDrag="dragEl === item.id" @isDrag="drag"/>
+        <Widget v-for="(item, index) in widgets" :key="index" :prop="item" :isDrag="dragEl" @isDrag="drag"/>
     </div>
 </template>
 <script setup>
@@ -38,7 +38,7 @@ const drag = (id, x, y) => {
   console.log("ssssssssssssssssssssss",id,dragEl.value, dragEl.value===id);
 }
 
-const widgets = ref([{id:1, content: './Calendar.vue', pos: {x:0,y:0}},{id:2, content: './HelloWorld.vue', pos: {x:200,y:10}}])
+const widgets = ref([{id:1, content: './Calendar.vue', pos: {x:0,y:0}},{id:2, content: './ProfileCard.vue', pos: {x:200,y:10}},{id:3, content: './HelloWorld.vue', pos: {x:700,y:700}}])
 
 </script>
 <style lang="">

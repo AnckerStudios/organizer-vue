@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="min-h-40 min-w-40 bg-white absolute  rounded-lg shadow-md" :style="{
+    <div class="min-h-40 min-w-40 bg-gray-100 absolute  rounded-lg shadow-md" :style="{
         left: (prop.pos.x - leftOffset) +'px',
         top: (prop.pos.y - topOffset)+'px',
         pointerEvents: isDrag ? 'none' : 'auto'
@@ -24,7 +24,7 @@ const leftOffset = ref(0);
 
 const props = defineProps({
     // id: Number,
-    isDrag: Boolean,
+    isDrag: Number,
     // mouseEvent: Object
     prop: Object
 })

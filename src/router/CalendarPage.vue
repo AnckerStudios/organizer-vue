@@ -2,7 +2,7 @@
   <div>
     <Calendar/>
     <div class="p-2 border">
-      <button @click="isModalOpen=true">Create</button>
+      <MyButton @click="isModalOpen=true">Create</MyButton>
     </div>
     <div class="p-2 border">
       <div v-for="(e, index) in getEvents" :key="e.id">{{e.title}}</div>
@@ -15,6 +15,7 @@
 import { ref, watch, onBeforeMount, onMounted } from "vue";
 
 import Modal from "../components/Modal.vue";
+import MyButton from "../components/MyButton.vue";
 import Calendar from "../components/Calendar.vue";
 import { storeToRefs } from 'pinia';
 import { useEventsStore } from "../stores/events";

@@ -25,11 +25,13 @@ export const useFakeDBStore = defineStore('fakeDB', () => {
         firstName: "Илья",
         lastName: "Ермолин",
         patronymic: "Сергеевич",
-        birthdate: new Date(2001,8,26),
-        age: 20
+        birthDate: "2001-09-26"
     })
     const getEvents = computed(() => {
       return events.value
+    });
+    const getProfile = computed(() => {
+      return JSON.parse(JSON.stringify(profile.value));
     });
     const getEventsByDate = computed(() => {
         return (year, month) => {
@@ -38,6 +40,7 @@ export const useFakeDBStore = defineStore('fakeDB', () => {
             return events.value.filter((x)=>x.dateIn <= lastDay && x.dateExp >= firstDay)
     }});
     const doubleCount = computed(() => count.value * 2)
+
     function increment() {
       count.value++;
     }
@@ -45,5 +48,9 @@ export const useFakeDBStore = defineStore('fakeDB', () => {
         events.value.push(event);
         return event;
     }
-    return { count, name, events, profile, getEvents,getEventsByDate, doubleCount, increment, saveEvent }
+    
+    function saveProfile(newProfile) {
+      profile.value = newProfile;
+    }
+    return { count, name, events, profile, getEvents,getEventsByDate, getProfile, doubleCount, increment, saveEvent, saveProfile }
 })
