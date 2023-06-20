@@ -6,18 +6,18 @@
         <span @click="incrementMonth" class="material-symbols-rounded select-none cursor-pointer"> chevron_right </span>
       </div>
       <div class="grid grid-cols-7 w-full border-b border-r border-emerald-600">
-        <div v-for="(day, index) in firstDayInCurMonth" :key="day" class="border-t border-l border-emerald-600 w-40">
+        <div v-for="(day, index) in firstDayInCurMonth" :key="day" class="border-t border-l border-emerald-600 min-w-8">
         
         </div>
-        <div v-for="(day, index) in daysInCurMonth" class="border-t border-l border-emerald-600 w-40 pb-1 px-1 max-h-72 overflow-hidden" :key="day">
+        <div v-for="(day, index) in daysInCurMonth" class="border-t border-l border-emerald-600 min-w-8 pb-1 px-1 max-h-72 overflow-hidden" :key="day">
         {{day}}
-          <div v-if="getEventsObj[year] && getEventsObj[year][month] && getEventsObj[year][month][day]"  class="flex flex-col gap-1 overflow-y-auto box-content">
-            <Event v-for="(event, index) in getEventsObj[year][month][day]" :key="event.id" :event="event"/>
+          <div v-if="testObj[day]"  class="flex flex-col gap-1 overflow-y-auto box-content">
+            <Event v-for="(event, index) in testObj[day]" :key="event.id" :event="event"/>
           </div>
       
 
         </div>
-        <div v-for="(item, index) in 42-daysInCurMonth-firstDayInCurMonth" class="border-t border-l border-emerald-600 w-40">
+        <div v-for="(item, index) in 42-daysInCurMonth-firstDayInCurMonth" class="border-t border-l border-emerald-600 min-w-8">
 
         </div>
       </div>
@@ -56,10 +56,33 @@ const monthInYear = [
 ];
 
 onMounted(()=>{
-  console.log("загрузка",getEventsByDate(new Date(year,month)));
-  console.log()
+  console.log("загрузка", year.value, month.value);
+  let arr = fakeDB.getEventsByDate(year.value,month.value);
+  console.log("sss",arr)
+  const firstDay = new Date(year.value, month.value, 1);
+    const lastDay = new Date(year.value, month.value+1, 0);
+  for(let item of arr){
+    console.log(item);
+    let start = item.dateIn < firstDay ? firstDay : item.dateIn;
+    let last = item.dateExp > lastDay ? lastDay : item.dateExp; //?
+  
+    for(let i = start.getDate(); i <= last.getDate(); i++){
+       let newItem = {
+        id: item.id,
+        title: item.title,
+        dateIn: item.dateIn < new Date(year.value, month.value, i) ? null : item.dateIn,
+        dateExp: item.dateExp > new Date(year.value, month.value, i) ? null : item.dateExp,
+    }
+        testObj.value[i] ? testObj.value[i].push(newItem) : testObj.value[i] = [newItem];
+    }
+    // if(item.dateIn.getDate() < firstDay){
+    //     testObj.value[firstDay] ? testObj.value[firstDay].push(item) : testObj.value[item.dateIn.getDate()] = [item];
+    // }
+    // testObj.value[item.dateIn.getDate() < firstDay ? firstDay : item.dateIn.getDate()] ? testObj.value[item.dateIn.getDate()].push(item) : testObj.value[item.dateIn.getDate()] = [item];
+  }
+  console.log("test",testObj);
 })
-
+const testObj = ref({})
 watch([() => year.value, () => month.value], ([newYear, newMonth]) => {
   console.log(`x is ${newYear} ${newMonth}`)
   getDaysInMonth();

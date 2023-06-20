@@ -9,6 +9,16 @@ export const useFakeDBStore = defineStore('fakeDB', () => {
         title: "Ужин",
         dateIn: new Date(),
         dateExp: new Date()
+      },{
+        id: 2,
+        title: "рррррр",
+        dateIn: new Date(2023,5),
+        dateExp: new Date(2023,5,26)
+      },{
+        id: 3,
+        title: "KeK",
+        dateIn: new Date(2022,5,2),
+        dateExp: new Date(2023,10,23)
       }])
     const profile = ref({
         img: "",
@@ -19,11 +29,14 @@ export const useFakeDBStore = defineStore('fakeDB', () => {
         age: 20
     })
     const getEvents = computed(() => {
-      console.log("fd");
+      return events.value
     });
     const getEventsByDate = computed(() => {
-        return events.value.filter((x)=>x.dateIn <= date && x.dateExp >= date)
-      });
+        return (year, month) => {
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month+1, 0);
+            return events.value.filter((x)=>x.dateIn <= lastDay && x.dateExp >= firstDay)
+    }});
     const doubleCount = computed(() => count.value * 2)
     function increment() {
       count.value++;

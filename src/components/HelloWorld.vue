@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <h1 class="">GGGGGGGGG</h1>
+  <h1 class="">Виджет</h1>
 </template>
 
 <style >

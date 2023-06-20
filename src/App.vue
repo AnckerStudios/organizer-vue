@@ -7,16 +7,16 @@ import SideBar from './components/SideBar.vue'
 </script>
 
 <template>
-  <div>
-    <header class=" w-full bg-blue-400 h-16 sticky top-0 p-2">
+  <div class="h-screen ">
+    <header class=" w-full bg-blue-400 h-16 fixed top-0 p-2 z-10">
       <router-link to="/" v-slot="{isActive}" >
           <div class=" text-4xl h-full text-white font-bold">🧙🏽‍♂️ organizer</div>
 
         </router-link>
     </header>
-    <div class="flex relative">
+    <div class="flex relative min-h-full">
       <SideBar/>
-      <div class=" mx-auto flex ">
+      <div class="ml-12 mt-16 w-full p-4 ">
         <RouterView />
       </div>
     </div>
