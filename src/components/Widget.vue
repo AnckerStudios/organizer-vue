@@ -29,7 +29,7 @@ const props = defineProps({
     prop: Object
 })
 const dragStart = ($event)=>{
-    console.log('dragStart', $event);
+    // console.log('dragStart', $event);
     topOffset.value = $event.offsetY;
     leftOffset.value = $event.offsetX;
     emit('isDrag', props.prop.id, props.prop.pos.x-leftOffset, props.prop.pos.y-topOffset);
@@ -38,14 +38,14 @@ const dragStart = ($event)=>{
 }
 
 const Content = defineAsyncComponent(() =>
-  import(/* @vite-ignore */props.prop.content)
+  import(props.prop.content)
 )
 
 // watch([() => props.mouseEvent], ([newEvent]) => {
 //   console.log(`dragEl ${newEvent}`)
 // })
 const dragEnd = ($event)=>{
-  console.log('drag Stop')
+  // console.log('drag Stop')
 }
 </script>
 <style lang="">

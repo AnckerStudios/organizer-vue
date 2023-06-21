@@ -1,5 +1,5 @@
 <template lang="">
-  <div>
+  <div class="max-w-4xl mx-auto">
     <Calendar/>
     <div class="p-2 border">
       <MyButton @click="isModalOpen=true">Create</MyButton>

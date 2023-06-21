@@ -1,12 +1,11 @@
 <template lang="">
-    <div>
-        Todo
+    <div class="mx-auto max-w-4xl flex ">
+        <ToDoList :isEditable="true"/>
+        
     </div>
 </template>
-<script>
-export default {
-    name:"ToDoPage"
-}
+<script setup>
+import ToDoList from '../components/ToDoList.vue';
 </script>
 <style lang="">
     

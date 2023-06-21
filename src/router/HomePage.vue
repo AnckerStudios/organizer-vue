@@ -16,29 +16,29 @@ const dragEl = ref(0);
 const mouseEvent = ref({x: 0, y: 0});
 const dragStart = ($event)=>{
   
-  console.log('1', $event.offsetX,$event.offsetY)
+  // console.log('1', $event.offsetX,$event.offsetY)
 }
 const dragEnd = ()=>{
   dragEl.value = 0;
-  console.log('22222222')
+  // console.log('22222222')
 }
 const mouseMove = ($event)=>{
   if(dragEl.value){
-    console.log('Move,', $event.offsetX,$event.offsetY)
+    // console.log('Move,', $event.offsetX,$event.offsetY)
     widgets.value[dragEl.value-1].pos = {x: $event.offsetX, y: $event.offsetY};
     // mouseEvent.value = {x: $event.offsetX, y: $event.offsetY}
   }
 }
 const drag = (id, x, y) => {
   
-  console.log("ssssssssssssssssssssss",id);
+  // console.log("ssssssssssssssssssssss",id);
   widgets.value[id-1].pos = {x: x, y: y}
   dragEl.value = id;
   
-  console.log("ssssssssssssssssssssss",id,dragEl.value, dragEl.value===id);
+  // console.log("ssssssssssssssssssssss",id,dragEl.value, dragEl.value===id);
 }
 
-const widgets = ref([{id:1, content: './Calendar.vue', pos: {x:0,y:0}},{id:2, content: './ProfileCard.vue', pos: {x:200,y:10}},{id:3, content: './HelloWorld.vue', pos: {x:700,y:700}}])
+const widgets = ref([{id:1, content: './Calendar.vue', pos: {x:0,y:0}},{id:2, content: './ProfileCard.vue', pos: {x:200,y:10}},{id:3, content: './ToDoList.vue', pos: {x:700,y:700}}])
 
 </script>
 <style lang="">

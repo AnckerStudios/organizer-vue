@@ -1,6 +1,12 @@
 <template lang="">
-    <div class="bg-blue-300 px-2 py-1 rounded text-white flex flex-col w-full">
-        <span class="font-bold text-sm overflow-ellipsis whitespace-nowrap overflow-hidden ">{{event.dateIn ? event.dateExp ? '10-10' : 'Начало' : event.dateExp ? 'Конец' : 'Продолжение'}}</span>
+    <div class="bg-blue-300 px-2 py-1 rounded text-white flex flex-col w-full" 
+    :style="{
+        backgroundColor: event.color,
+        opacity: !(event.timeIn || event.timeExp) ? 0.7 : 1
+        }">
+        <span class="font-bold text-sm overflow-ellipsis whitespace-nowrap overflow-hidden ">
+            {{event.timeIn ? event.timeExp ? `${event.timeIn}-${event.timeExp}` : 
+            `Начало в ${event.timeIn}` : event.timeExp ? `Конец в ${event.timeExp}` : 'Продолжение'}}</span>
         {{event.title || 'Ой, название потерялось'}}
     </div>
 </template>

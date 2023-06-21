@@ -9,7 +9,7 @@ import SideBar from './components/SideBar.vue'
 <template>
   <div class="h-screen ">
     <header class=" w-full bg-blue-400 h-16 fixed top-0 p-2 z-10">
-      <router-link to="/" v-slot="{isActive}" >
+      <router-link to="/">
           <div class=" text-4xl h-full text-white font-bold">🧙🏽‍♂️ organizer</div>
 
         </router-link>

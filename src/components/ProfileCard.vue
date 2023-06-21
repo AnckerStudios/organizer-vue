@@ -74,7 +74,7 @@ const previewImage = ref(undefined);
 const inputEl = ref(null);
 const profile = ref(undefined);
 const oldProfile = ref(undefined);
-onMounted((resolve, reject) => {
+onMounted(() => {
 
     const myPromise = new Promise((resolve, reject) => {
         load.value = "download";
