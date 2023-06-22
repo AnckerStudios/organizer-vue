@@ -1,6 +1,6 @@
 <template lang="">
     <div class="min-h-40 min-w-40 bg-gray-100 absolute  rounded-lg shadow-md" :style="{
-        left: (prop.pos.x - leftOffset) +'px',
+        left: (prop.pos.x - leftOffset) +'px' ,
         top: (prop.pos.y - topOffset)+'px',
         pointerEvents: isDrag ? 'none' : 'auto'
 }">
@@ -10,7 +10,7 @@
             </div>    
         </div>
           <div class="p-4">
-            <Content/>
+            <component :is="prop.content"/>
           </div>
           
 
@@ -23,9 +23,7 @@ const topOffset = ref(0);
 const leftOffset = ref(0);
 
 const props = defineProps({
-    // id: Number,
     isDrag: Number,
-    // mouseEvent: Object
     prop: Object
 })
 const dragStart = ($event)=>{
@@ -37,9 +35,9 @@ const dragStart = ($event)=>{
 
 }
 
-const Content = defineAsyncComponent(() =>
-  import(props.prop.content)
-)
+// const Content = defineAsyncComponent(() =>
+//   import(props.prop.content)
+// )
 
 // watch([() => props.mouseEvent], ([newEvent]) => {
 //   console.log(`dragEl ${newEvent}`)

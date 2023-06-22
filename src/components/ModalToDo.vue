@@ -8,7 +8,7 @@
                 <div v-if="load" class="">
                     Загрузка
                 </div>
-                <select v-else-if="events.length" class="w-full p-1 px-2" v-model="todo.event" >
+                <select v-else-if="events.length" class="w-full p-1 px-2" v-model="record.event" >
                     <option value="null">Нет</option>
                     <option v-for="(event, index) in events" :key="event.id" :value="event.id">{{event.title}}</option>
                 </select>
@@ -63,7 +63,7 @@ const close = () => {
     emit('close')
 }
 const submit = () => {
-    emit('save', todo);
+    emit('save');
 }
 </script>
 <style lang="">

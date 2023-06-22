@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="bg-blue-300 px-2 py-1 rounded text-white flex flex-col w-full" 
+    <div class="bg-blue-300 px-2 py-1 rounded text-white flex flex-col w-full cursor-pointer" 
     :style="{
         backgroundColor: event.color,
         opacity: !(event.timeIn || event.timeExp) ? 0.7 : 1

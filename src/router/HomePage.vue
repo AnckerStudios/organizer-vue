@@ -11,7 +11,10 @@
 import { ref, onMounted,watch } from 'vue';
 
 import Widget from '../components/Widget.vue';
-import HelloWorld from '../components/HelloWorld.vue';
+import { useWidgetStore } from "../stores/widget";
+import { storeToRefs } from 'pinia';
+const widgetStore = useWidgetStore();
+const { widgets } = storeToRefs(widgetStore)
 const dragEl = ref(0);
 const mouseEvent = ref({x: 0, y: 0});
 const dragStart = ($event)=>{
@@ -25,20 +28,23 @@ const dragEnd = ()=>{
 const mouseMove = ($event)=>{
   if(dragEl.value){
     // console.log('Move,', $event.offsetX,$event.offsetY)
-    widgets.value[dragEl.value-1].pos = {x: $event.offsetX, y: $event.offsetY};
+    // widgetStore.widgets.value[dragEl.value-1].pos = {x: $event.offsetX, y: $event.offsetY};
+
+    widgetStore.setCoord(dragEl.value, $event.offsetX, $event.offsetY)
     // mouseEvent.value = {x: $event.offsetX, y: $event.offsetY}
   }
 }
 const drag = (id, x, y) => {
   
   // console.log("ssssssssssssssssssssss",id);
-  widgets.value[id-1].pos = {x: x, y: y}
+  // widgetStore.widgets.value[id-1].pos = {x: x, y: y}
+  widgetStore.setCoord(id, x, y)
   dragEl.value = id;
   
   // console.log("ssssssssssssssssssssss",id,dragEl.value, dragEl.value===id);
 }
 
-const widgets = ref([{id:1, content: './Calendar.vue', pos: {x:0,y:0}},{id:2, content: './ProfileCard.vue', pos: {x:200,y:10}},{id:3, content: './ToDoList.vue', pos: {x:700,y:700}}])
+// const widgets = ref([{id:1, content: Calendar, pos: {x:0,y:0}},{id:2, content: HelloWorld, pos: {x:200,y:10}}])
 
 </script>
 <style lang="">
