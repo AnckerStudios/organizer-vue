@@ -1,4 +1,4 @@
-export const responseDelay = 300;
+export const responseDelay = 100;
 export const colorArray = [
   "#fdba74",
   "#16a34a",

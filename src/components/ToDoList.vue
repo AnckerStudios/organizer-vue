@@ -1,23 +1,25 @@
 <template lang="">
     <div class="rounded-2xl bg-white p-4 shadow-md w-full">
-        <div class="flex justify-between gap-4 px-4">
-            <div class=" min-w-[10rem] max-w-sm w-40 p-1 py-2 border-r">Наименование</div>
-            <div class="flex-grow min-w-[10rem] p-1 py-2 border-r">Описание</div>
-            <div class="flex-grow min-w-[7rem] max-w-[12rem] p-1 py-2 border-r">Событие</div>
+        <div class="flex justify-between px-4">
+            <div class=" min-w-[10rem] max-w-sm w-40 p-2 py-2 border-r">Наименование</div>
+            <div class="flex-grow min-w-[10rem] p-2 py-2 border-r">Описание</div>
+            <div class="flex-grow min-w-[7rem] max-w-[12rem] p-2 py-2 border-r">Событие</div>
             <div class="w-20 p-1 py-2 ">Статус</div>
-            <div v-if="isEditable" class="w-40 p-1 py-2 "><MyButton @click="onCreate">Создать</MyButton></div>
+            <div v-if="isEditable" class="w-40 p-2 py-2 "><MyButton @click="onCreate">Создать</MyButton></div>
         </div>
         <div v-if="todos.length" class="flex flex-col">
             <div v-for="(todo, index) in todos" :key="todo.id" class="py-1 "> 
                 <div class="flex justify-between items-center px-4  rounded-2xl"  :class="todo.status && 'bg-green-100'">
-                    <div class=" min-w-[10rem] max-w-sm w-40 p-1 py-2 font-bold">{{todo.name}}</div>
-                    <div class="flex-grow min-w-[10rem] p-1 py-2 ">{{todo.description}}</div>
-                    <div class="flex-grow min-w-[7rem] max-w-[12rem] p-1 py-2 ">
+                    <div class=" min-w-[10rem] max-w-sm w-40 p-2 py-2 font-bold border-r">{{todo.name}}</div>
+                    <div class="flex-grow min-w-[10rem] p-2 py-2  border-r">{{todo.description}}</div>
+                    <div class="flex-grow min-w-[7rem] max-w-[12rem] p-2 py-2  border-r">
                         <div v-if="todo.event" @click="onViewEvent(todo.event)" class="px-4 rounded-lg text-white font-bold overflow-hidden text-ellipsis whitespace-nowrap" :style="{
                             backgroundColor: todo.event.color,
                         }">{{todo.event.title}}</div>
                     </div>
-                    <div class="w-20 p-1 py-2 ">{{todo.status}}</div>
+                    <div class="w-20 p-2 py-2 ">
+                        <input class="w-4 h-4" type="checkbox" id="checkbox" :checked="todo.status" @change="statusChange(todo)"> 
+                    </div>
                     <div v-if="isEditable" class="w-40 p-1 py-2 flex gap-2">
                         <MyButton @click="onEdit(todo)">Р</MyButton>
                         <MyButton @click="delToDo(todo.id)">Х</MyButton>
@@ -99,12 +101,12 @@ const onViewEvent = (event) => {
     editableEvent.value = JSON.parse(JSON.stringify(event));
     isModalEventOpen.value=true
 }
-const editToDo = (todo) => {
-    console.log(todo);
-    editRecord.value = todo;
-    console.log(editRecord);
-
-    isModalToDoOpen.value = true;
+const statusChange = (todo) => {
+    editableRecord.value = JSON.parse(JSON.stringify(todo));
+    editableRecord.value.event = editableRecord.value.event.id;
+    editableRecord.value.status = !todo.status;
+    editableRecord.value.completionDate = !todo.status ? new Date(): null;
+    saveToDo();
     // todos.value = todos.value.filter(x=>x.id !== id);
     // fakeDB.delToDo(id);
 }
