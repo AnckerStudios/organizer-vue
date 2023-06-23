@@ -1,15 +1,15 @@
 <template lang="">
-    <div class="rounded-2xl bg-white p-4 shadow-md w-full">
+    <div class="rounded-2xl bg-white p-4 shadow-md w-full h-full">
         <div class="flex justify-between px-4">
-            <div class=" min-w-[10rem] max-w-sm w-40 p-2 py-2 border-r">Наименование</div>
-            <div class="flex-grow min-w-[10rem] p-2 py-2 border-r">Описание</div>
-            <div class="flex-grow min-w-[7rem] max-w-[12rem] p-2 py-2 border-r">Событие</div>
-            <div class="w-20 p-1 py-2 ">Статус</div>
-            <div v-if="isEditable" class="w-40 p-2 py-2 "><MyButton @click="onCreate">Создать</MyButton></div>
+            <div class=" min-w-[10rem] max-w-sm w-40 p-2 py-2 border-r font-bold">Наименование</div>
+            <div class="flex-grow min-w-[10rem] p-2 py-2 border-r font-bold">Описание</div>
+            <div class="flex-grow min-w-[7rem] max-w-[12rem] p-2 py-2 border-r font-bold">Событие</div>
+            <div class="w-20 p-2 py-2 font-bold">Статус</div>
+            <div v-if="isEditable" class="w-36 p-2 py-2 "><MyButton @click="onCreate">Создать</MyButton></div>
         </div>
         <div v-if="todos.length" class="flex flex-col">
-            <div v-for="(todo, index) in todos" :key="todo.id" class="py-1 "> 
-                <div class="flex justify-between items-center px-4  rounded-2xl"  :class="todo.status && 'bg-green-100'">
+            <div v-for="(todo, index) in (isEditable ? todos : todos.slice(0,3))" :key="todo.id" class="py-1 "> 
+                <div class="flex justify-between items-center px-4  rounded-2xl"  :class="todo.completionDate && 'bg-green-100'">
                     <div class=" min-w-[10rem] max-w-sm w-40 p-2 py-2 font-bold border-r">{{todo.name}}</div>
                     <div class="flex-grow min-w-[10rem] p-2 py-2  border-r">{{todo.description}}</div>
                     <div class="flex-grow min-w-[7rem] max-w-[12rem] p-2 py-2  border-r">
@@ -18,17 +18,19 @@
                         }">{{todo.event.title}}</div>
                     </div>
                     <div class="w-20 p-2 py-2 ">
-                        <input class="w-4 h-4" type="checkbox" id="checkbox" :checked="todo.status" @change="statusChange(todo)"> 
+                        <input class="w-4 h-4" type="checkbox" id="checkbox" :checked="!!todo.completionDate" @change="statusChange(todo)"> 
                     </div>
-                    <div v-if="isEditable" class="w-40 p-1 py-2 flex gap-2">
-                        <MyButton @click="onEdit(todo)">Р</MyButton>
-                        <MyButton @click="delToDo(todo.id)">Х</MyButton>
+                    <div v-if="isEditable" class="w-36 p-1 py-2 flex gap-2">
+                        <MyButton @click="onEdit(todo)"><span class="material-symbols-rounded">edit</span></MyButton>
+                        <MyButton @click="delToDo(todo.id)"><span class="material-symbols-rounded">delete</span></MyButton>
                     </div>
                 </div>
 
             </div>
+            <div v-if="!isEditable && todos.length - 3 > 0" class="text-center font-bold">И еще  {{todos.length - 3}}</div>
+            
         </div>
-        <div v-else>Задач пока нет </div>
+        <div v-else>Задач пока нет</div>
         <ModalToDo v-if="isModalToDoOpen" :record="editableRecord" @close="isModalToDoOpen=false" @save="saveToDo"/>
         <Modal v-if="isModalEventOpen" :event="editableEvent"  @close="isModalEventOpen=false" :read="true"/>
         {{editableRecord}}
@@ -102,10 +104,14 @@ const onViewEvent = (event) => {
     isModalEventOpen.value=true
 }
 const statusChange = (todo) => {
+    console.log("todo",todo);
     editableRecord.value = JSON.parse(JSON.stringify(todo));
-    editableRecord.value.event = editableRecord.value.event.id;
-    editableRecord.value.status = !todo.status;
-    editableRecord.value.completionDate = !todo.status ? new Date(): null;
+    if(editableRecord.value.event){
+        editableRecord.value.event = editableRecord.value.event.id;
+    }
+    const now = new Date();
+    // editableRecord.value.status = !todo.status;
+    editableRecord.value.completionDate = todo.completionDate ? "" : `${now.getFullYear()}-${('0' + (now.getMonth() + 1)).slice(-2)}-${('0' + now.getDate()).slice(-2)}`;
     saveToDo();
     // todos.value = todos.value.filter(x=>x.id !== id);
     // fakeDB.delToDo(id);

@@ -19,7 +19,7 @@
             <VueDatePicker :readonly="isFullDay" v-model="event.dateExp" locale="ru" auto-apply :format="format"/> -->
             
             <div class="flex gap-2">
-                <button class="w-1/2 bg-gray-100 rounded px-4 p-2">Отмена</button>
+                <button class="w-1/2 bg-gray-100 rounded px-4 p-2" @click="close">Отмена</button>
             <button class="w-1/2 bg-blue-100 rounded px-4 p-2" @click="submit">Сохранить</button>
             </div>
 
@@ -63,6 +63,10 @@ const close = () => {
     emit('close')
 }
 const submit = () => {
+    if(!props.record.name)
+        return
+    if(!props.record.description)
+        return
     emit('save');
 }
 </script>

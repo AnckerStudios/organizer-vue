@@ -11,7 +11,7 @@
   
   <script setup>
   import { Bar } from 'vue-chartjs'
-  import { Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+  import { Chart as ChartJS, Title, Tooltip, BarElement, CategoryScale, LinearScale } from 'chart.js'
 import { responseDelay } from '../config'
 import { useFakeDBStore } from "../stores/fakeDB";
 import { onMounted, ref } from 'vue';
@@ -37,7 +37,8 @@ const fakeDB = useFakeDBStore();
     });
     myPromise.then(res => {
         console.log("res",res);
-        for(let todo of res){
+        const arr = res.filter(x=> x.completionDate)
+        for(let todo of arr){
             // gg.value[todo.completionDate] ? gg.value[todo.completionDate].push(todo) : gg.value[todo.completionDate] = [todo]; 
             if(gg.value[todo.completionDate]){
                 gg.value[todo.completionDate].push(todo);
@@ -48,10 +49,11 @@ const fakeDB = useFakeDBStore();
             
         }
         for(let key in gg.value){
-            chartData.value.labels.push(key);
+            chartData.value.labels.push(new Date(key).toLocaleDateString());
             chartData.value.datasets[0].data.push(gg.value[key].length)
             console.log("g",gg.value[key]);
         }
+        chartData.value.labels.sort();
         console.log("gg",gg);
         load.value = "load"
     });

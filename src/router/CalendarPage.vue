@@ -1,6 +1,6 @@
 <template lang="">
   <div class="max-w-4xl mx-auto">
-    <Calendar/>
+    <Calendar :isEditable="true"/>
     <!-- <div class="p-2 border">
       <MyButton @click="isModalOpen=true">Create</MyButton>
     </div> -->

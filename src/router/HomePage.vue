@@ -1,6 +1,5 @@
 <template lang="">
-    <div class="relative w-full min-h-full h-60 rounded-2xl border-4 border-dashed " :class="dragEl ? 'border-gray-400' :'border-transparent'" 
-    @mousedown.self="dragStart" 
+    <div class="relative w-full min-h-full h-60 rounded-2xl border-4 border-dashed " :class="dragEl ? 'border-gray-400' :'border-transparent'"
     @mouseup="dragEnd" 
     @mouseleave="dragEnd"
     @mousemove.self="mouseMove">
@@ -8,45 +7,41 @@
     </div>
 </template>
 <script setup>
-import { ref, onMounted,watch } from 'vue';
-
+import { ref, onMounted, watch } from 'vue';
 import Widget from '../components/Widget.vue';
 import { useWidgetStore } from "../stores/widget";
 import { storeToRefs } from 'pinia';
 const widgetStore = useWidgetStore();
 const { widgets } = storeToRefs(widgetStore)
 const dragEl = ref(0);
-const mouseEvent = ref({x: 0, y: 0});
-const dragStart = ($event)=>{
-  
-  // console.log('1', $event.offsetX,$event.offsetY)
-}
-const dragEnd = ()=>{
+const mouseOffset = ref({ x: 0, y: 0 });
+const dragEnd = () => {
   dragEl.value = 0;
-  // console.log('22222222')
+  mouseOffset.value = { x: 0, y: 0 };
 }
-const mouseMove = ($event)=>{
-  if(dragEl.value){
-    // console.log('Move,', $event.offsetX,$event.offsetY)
-    // widgetStore.widgets.value[dragEl.value-1].pos = {x: $event.offsetX, y: $event.offsetY};
+const mouseMove = ($event) => {
+  if (dragEl.value) {
+    const x = $event.offsetX - mouseOffset.value.x;
+    let resX = x;
+    if(x < 0){
+      resX = 0;
+    }else{
+      resX=Math.min(x, document.documentElement.clientWidth-88- widgets.value.find(x=> x.id === dragEl.value).size.x);
+    }
 
-    widgetStore.setCoord(dragEl.value, $event.offsetX, $event.offsetY)
-    // mouseEvent.value = {x: $event.offsetX, y: $event.offsetY}
+    const y = $event.offsetY - mouseOffset.value.y;
+    let resY = y;
+    if(y < 0){
+      resY = 0;
+    }else{
+      resY = Math.min(y, document.documentElement.clientHeight-105 - widgets.value.find(x=> x.id === dragEl.value).size.y);
+    }
+    widgetStore.setCoord(dragEl.value, resX, resY)
+    console.log("window",document.documentElement.clientWidth,document.documentElement.clientHeight);
   }
 }
 const drag = (id, x, y) => {
-  
-  // console.log("ssssssssssssssssssssss",id);
-  // widgetStore.widgets.value[id-1].pos = {x: x, y: y}
-  widgetStore.setCoord(id, x, y)
   dragEl.value = id;
-  
-  // console.log("ssssssssssssssssssssss",id,dragEl.value, dragEl.value===id);
+  mouseOffset.value = { x: x, y: y }
 }
-
-// const widgets = ref([{id:1, content: Calendar, pos: {x:0,y:0}},{id:2, content: HelloWorld, pos: {x:200,y:10}}])
-
 </script>
-<style lang="">
-    
-</style>

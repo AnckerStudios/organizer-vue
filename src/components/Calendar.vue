@@ -1,5 +1,5 @@
 <template lang="">
-    <div class=" bg-white p-4 rounded-2xl">
+    <div class=" bg-white p-4 rounded-2xl h-full">
       <div class="flex justify-between items-center mb-2">
         <div class="flex justify-between items-center w-60">
           <span @click="calendarStore.decrementMonth" class="material-symbols-rounded select-none cursor-pointer text-4xl text-blue-500"> chevron_left </span>
@@ -7,22 +7,30 @@
         <span @click="calendarStore.incrementMonth" class="material-symbols-rounded select-none cursor-pointer text-4xl text-blue-500"> chevron_right </span>
         </div>
         
-        <button class="px-4 p-2 bg-blue-500 rounded-full" @click="onCreate">Создать</button>
+        <button v-if="isEditable" class="px-4 p-2 bg-blue-500 rounded-full text-white" @click="onCreate">Создать</button>
       </div>
-      <div class="grid grid-cols-7 w-full border-b border-r border-blue-500 ">
+      <div class="grid grid-cols-7 w-full border-b border-r border-blue-500">
         <div v-for="day in weekArray" :key="day" class="text-center border-t border-l border-blue-500 bg-blue-500 text-white font-bold">{{day}}</div>
-        <div v-for="(day, index) in firstDayInCurMonth" :key="day" class="border-t border-l border-blue-500 min-w-8 min-h-10 bg-gray-200">
+        <div v-for="(day, index) in firstDayInCurMonth" :key="day" class="border-t border-l border-blue-500 min-w-8 min-h-10 bg-gray-200"
+        :class="isEditable ? 'max-h-40' : 'h-20'">
         
         </div>
-        <div v-for="(day, index) in daysInCurMonth" class="border-t border-l border-blue-500 min-w-8 pb-1 min-h-10 px-1 max-h-72 overflow-hidden" :key="day">
-        <p :class="day===curDay && new Date().getMonth() === month && 'text-red-500 font-bold'">{{day}}</p>
-          <div v-if="calendarObj[day]"  class="flex flex-col gap-1 overflow-y-auto box-content">
-            <Event v-for="(event, index) in calendarObj[day]" @click="onEdit(event.id)" :key="event.id" :event="event"/>
+        <div v-for="(day, index) in daysInCurMonth" 
+        class="border-t border-l border-blue-500 min-w-8 pb-1 min-h-10 px-1 " 
+        :class="((day+firstDayInCurMonth) % 7 === 0 || (day+1+firstDayInCurMonth) % 7 === 0 )  &&' bg-blue-50', 
+          day===curDay && new Date().getMonth() === month && ' bg-blue-200 text-blue-500 font-bold',
+          isEditable ? 'max-h-40' : 'h-20',
+          isEditable ? `max-h-40 ${calendarObj[day].length > 2 && 'overflow-y-scroll'}` : `h-20 overflow-hidden`"
+        :key="day">
+        {{day}}
+          <div v-if="calendarObj[day]"  class="flex flex-col gap-1  ">
+            <Event v-for="(event, index) in calendarObj[day]" @click="onEdit(event.id)" :key="event.id" :event="event" :isEditable="isEditable"/>
           </div>
       
 
         </div>
-        <div v-for="(item, index) in 42-daysInCurMonth-firstDayInCurMonth" class="border-t border-l min-h-10 border-blue-500 min-w-8  bg-gray-200">
+        <div v-for="(item, index) in 42-daysInCurMonth-firstDayInCurMonth" class="border-t border-l min-h-10 border-blue-500 min-w-8  bg-gray-200"
+        :class="isEditable ? 'max-h-40' : 'h-20'">
 
         </div>
       </div>
@@ -45,13 +53,12 @@ import { weekArray } from "../config.js"
 
 const { getEventsByDate } = storeToRefs(fakeDB)
 const { year, month, curDay } = storeToRefs(calendarStore)
-// let now = new Date();
-// const year = ref(now.getFullYear());
-// const month = ref(now.getMonth());
-// const curDay = ref(now.getDate());
 const daysInCurMonth = ref(0);
 const firstDayInCurMonth = ref(0);
 
+const props = defineProps({
+    isEditable: Boolean
+});
 
 onMounted(() => {
   // setCalendarObj();
@@ -112,12 +119,6 @@ const getFirstDayOfMonth = () => {
     0
   ).getDay();
 };
-// const incrementMonth = () => {
-//   month.value === 11 ? (month.value = 0, year.value++) : month.value++;
-// }
-// const decrementMonth = () => {
-//   month.value === 0 ? (month.value = 11, year.value--) : month.value--;
-// }
 
 const isModalOpen = ref(false);
 const editableEvent = ref(null)

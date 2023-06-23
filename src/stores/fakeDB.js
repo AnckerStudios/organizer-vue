@@ -10,34 +10,34 @@ export const useFakeDBStore = defineStore("fakeDB", () => {
       name: "Убраться",
       description: "sdasdasdasdas",
       event: 3,
-      status: true,
-      completionDate: "2023-06-19"
+
+      completionDate: "2023-06-21"
     },{
       id: "2",
       name: "Убраться",
       description: "sdasdasdasdas",
       event: 3,
-      status: true,
-      completionDate: "2023-06-20"
+
+      completionDate: ""
     },{
       id: "3",
       name: "Убраться",
       description: "sdasdasdasdas",
       event: 3,
-      status: false,
+
     },{
       id: "4",
       name: "Убраться",
       description: "sdasdasdasdas",
       event: 3,
-      status: true,
-      completionDate: "2023-06-20"
+ 
+      completionDate: "2023-06-18"
     },{
       id: "5",
       name: "Убраться",
       description: "sdasdasdasdas",
       event: 3,
-      status: true,
+
       completionDate: "2023-06-19"
     },
   ]);

@@ -50,7 +50,7 @@
                 {{event}}
             </div>
             <div v-if="!read" class="flex gap-2">
-                <button class="w-1/2 bg-gray-100 rounded px-4 p-2">Отмена</button>
+                <button class="w-1/2 bg-gray-100 rounded px-4 p-2" @click="close">Отмена</button>
             <button class="w-1/2 bg-blue-100 rounded px-4 p-2" @click="submit">Сохранить</button>
             </div>
 
@@ -95,7 +95,19 @@ const close = () => {
     emit('close')
 }
 const submit = () => {
-    emit('saveEvent', event);
+    if(!props.event.timeExp)
+        return
+    if(!props.event.timeIn)
+        return
+    if(!props.event.dateExp)
+        return
+    if(!props.event.dateIn)
+        return
+    if(!props.event.timeExp)
+        return
+    if(!props.event.title)
+        return
+    emit('saveEvent');
 }
 const changeColor = (color) => {
     if(!props.read) 
