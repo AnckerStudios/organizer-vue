@@ -11,7 +11,7 @@
         <div v-if="profile" class="flex flex-col gap-4">
             <div>
                 <div class="h-60 w-60 relative">
-                    <img :src="previewImage" class="rounded-2xl object-cover h-60 w-60" /> 
+                    <img :src="previewImage" class="rounded-2xl object-cover h-60 w-60 bg-blue-200" /> 
                     <input class="hidden" type="file" accept="image/jpeg" @change="changeImage" ref="inputEl"/>
                     <div class="absolute bottom-2 left-2 right-2">
                         <MyButton v-if="state" @click="func2" >

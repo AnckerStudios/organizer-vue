@@ -33,7 +33,6 @@
         <div v-else>Задач пока нет</div>
         <ModalToDo v-if="isModalToDoOpen" :record="editableRecord" @close="isModalToDoOpen=false" @save="saveToDo"/>
         <Modal v-if="isModalEventOpen" :event="editableEvent"  @close="isModalEventOpen=false" :read="true"/>
-        {{editableRecord}}
     </div>
 </template>
 <script setup>

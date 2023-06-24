@@ -46,9 +46,6 @@
                 <input v-if="!read" class="w-4 h-4" type="checkbox" id="checkbox" :value="event.isFullDay" @click="clickFullDay"> Весь день
             </div>
             
-            <div>
-                {{event}}
-            </div>
             <div v-if="!read" class="flex gap-2">
                 <button class="w-1/2 bg-gray-100 rounded px-4 p-2" @click="close">Отмена</button>
             <button class="w-1/2 bg-blue-100 rounded px-4 p-2" @click="submit">Сохранить</button>

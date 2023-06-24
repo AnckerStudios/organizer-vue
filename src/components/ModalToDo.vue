@@ -12,7 +12,6 @@
                     <option value="null">Нет</option>
                     <option v-for="(event, index) in events" :key="event.id" :value="event.id">{{event.title}}</option>
                 </select>
-                {{todo}}
             </div>
             
             <!-- <VueDatePicker :model-value="event.dateIn" @update:model-value="changeDateIn" locale="ru" auto-apply :format="format"/>
